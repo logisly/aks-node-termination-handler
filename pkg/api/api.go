@@ -109,6 +109,30 @@ func DrainNode(ctx context.Context, nodeName string, eventType string, eventID s
 		}
 	}
 
+	if err := removeNodeFinalizers(ctx, nodeName); err != nil {
+		return errors.Wrap(err, "failed to remove node finalizers")
+	}
+
+	return nil
+}
+
+func removeNodeFinalizers(ctx context.Context, nodeName string) error {
+	node, err := GetNode(ctx, nodeName)
+	if err != nil {
+		return errors.Wrap(err, "error in nodes.get")
+	}
+
+	if len(node.Finalizers) == 0 {
+		return nil
+	}
+
+	node.Finalizers = nil
+
+	_, err = client.GetKubernetesClient().CoreV1().Nodes().Update(ctx, node, metav1.UpdateOptions{})
+	if err != nil {
+		return errors.Wrap(err, "error in nodes.update")
+	}
+
 	return nil
 }
 

@@ -7,8 +7,8 @@ permissions:
   contents: write
 
 env:
-  IMAGE: paskalmaksim/aks-node-termination-handler:${{github.ref_name}}
-  IMAGE_LATEST: paskalmaksim/aks-node-termination-handler:latest
+  IMAGE: logisly.azurecr.io/aks-node-termination-handler:${{github.ref_name}}
+  IMAGE_LATEST: logisly.azurecr.io/aks-node-termination-handler:latest
   # IMAGE: paskalmaksim/aks-node-termination-handler:test-${{ github.run_id }}
   # IMAGE_LATEST: paskalmaksim/aks-node-termination-handler:test-latest
 
